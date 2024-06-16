@@ -23,3 +23,5 @@ BetterGPT is a subscription-based chatbot leveraging OpenAI’s GPT-4. It allows
 - Answer
 - Leaderboard(potential)
 - Setting
+- Connect (Interface, transfer data among GPT, user and database)
+    
