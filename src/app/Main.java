@@ -1,10 +1,8 @@
-package src.app;
+package app;
 
-import javax.swing.*;
-import java.awt.*;
 import UI.ViewManager;
 
-public class Main {
+public class Main{
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
