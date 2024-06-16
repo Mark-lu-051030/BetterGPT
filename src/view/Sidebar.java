@@ -1,4 +1,4 @@
-package UI;  // Ensure this is at the top of your Sidebar.java file
+package view;  // Ensure this is at the top of your Sidebar.java file
 
 import javax.swing.*;
 import java.awt.*;

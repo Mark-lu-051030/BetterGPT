@@ -1,6 +1,6 @@
 package app;
 
-import UI.ViewManager;
+import view.ViewManager;
 
 public class Main{
     public static void main(String[] args) {
