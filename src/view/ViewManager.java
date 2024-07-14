@@ -41,13 +41,13 @@ public class ViewManager {
         constraints.gridheight = GridBagConstraints.REMAINDER; // Occupy the remainder of the grid's vertical space
         frame.getContentPane().add(sideBar.getSidebar(), constraints);  // Add to the content pane
 
-        button2 = new JButton("Button 2");
+        ChatPanel chatPanel = new ChatPanel();
         constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.weightx = 1;
         constraints.weighty = 0;  // This ensures the button doesn't expand vertically
         constraints.gridheight = 1;  // Set back to 1 so it does not affect vertical distribution
-        frame.getContentPane().add(button2, constraints);  // Add to the content pane
+        frame.getContentPane().add(chatPanel, constraints);  // Add to the content pane
     }
 
     public JFrame getFrame() {
