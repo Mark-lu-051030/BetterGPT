@@ -12,6 +12,7 @@ public class Main {
                 new ViewManager();  // Create and show the GUI managed by ViewMasnager.
             }
         });
+
         String apiKey = "sk-proj-R28ol8hXTZvbitrM96dfT3BlbkFJ1vvGN44cRIZHmhV3ZnEh";
         GptApiClient gptApiClient = new GptApiClient(apiKey);
         ChatService chatService = new ChatService(gptApiClient);
