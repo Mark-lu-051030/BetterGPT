@@ -1,5 +1,9 @@
 package view;
 
+import data_access.DataHandler;
+import entity.ChatGPTService;
+import interface_adapter.ChatController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -46,22 +50,34 @@ public class ChatPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.SOUTH);
 
-        sendButton.addActionListener(new ActionListener() {
+        sendButton.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 System.out.println(userInput.getText());
                 String input = userInput.getText();
-                if (!input.isEmpty()) {
+
+
+
+                if (!input.isEmpty())
+                {
                     addUserMessage("You: " + input);
-                    String response = "GPT response here";
-                    addGPTMessage("GPT: " + response);
+                    String out = DataHandler.getGptMsg(ChatGPTService.service, DataHandler.sendUserMsg(input));
+
+                    String response = out;
+                    addGPTMessage("GPT: " + out);
                     userInput.setText("");
+
+
+
                 }
             }
         });
     }
 
-    private void addUserMessage(String message) {
+    private void addUserMessage(String message)
+    {
         ChatBox newChat = new ChatBox(message); // Create a new ChatBox with the same text as userInput
         newChat.setEditable(false);
         newChat.setBackground(Color.LIGHT_GRAY);

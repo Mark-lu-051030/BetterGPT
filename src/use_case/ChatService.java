@@ -1,15 +1,21 @@
 package use_case;
 
 import data_access.GptApiClient;
+import interface_adapter.*;
 
-public class ChatService {
-    private final GptApiClient gptApiClient;
+public class ChatService
+{
 
-    public ChatService(GptApiClient gptApiClient) {
-        this.gptApiClient = gptApiClient;
+
+    private ChatController chatcontroller;
+
+    public ChatService(ChatController inputchatcontroller)
+    {
+        this.chatcontroller = inputchatcontroller;
     }
 
-    public String getChatResponse(String prompt) {
-        return gptApiClient.getChatCompletion(prompt);
+    public ChatController getChatController()
+    {
+        return this.chatcontroller;
     }
 }

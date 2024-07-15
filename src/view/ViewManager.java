@@ -1,11 +1,15 @@
 package view;
 
+import com.theokanning.openai.service.OpenAiService;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ViewManager {
     private JFrame frame;
     private JButton button1, button2;
+
+    private OpenAiService service;
 
     public ViewManager() {
         frame = new JFrame("BetterGPT");

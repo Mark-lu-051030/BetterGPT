@@ -8,14 +8,16 @@ import com.theokanning.openai.completion.chat.ChatMessage;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class GptApiClient {
+public class GptApiClient
+{
     private final OpenAiService service;
 
     public GptApiClient(String apiKey) {
         this.service = new OpenAiService(apiKey);
     }
 
-    public String getChatCompletion(String prompt) {
+    public String getChatCompletion(String prompt)
+    {
         ChatCompletionRequest request = ChatCompletionRequest.builder()
                 .model("gpt-3.5-turbo")
                 .messages(Collections.singletonList(new ChatMessage("user", prompt)))
