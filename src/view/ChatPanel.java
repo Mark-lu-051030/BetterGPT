@@ -6,10 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class ChatPanel extends JPanel {
-    private final ChatController chatController;
     private ArrayList<JTextArea> currentMessages;
     private JPanel chatArea;
     private ChatBox userInput;
@@ -18,7 +19,6 @@ public class ChatPanel extends JPanel {
     private GridBagConstraints gbc;
 
     public ChatPanel(ChatController chatController) {
-        this.chatController = chatController;
         setLayout(new BorderLayout()); // Use BorderLayout for main panel
 
         currentMessages = new ArrayList<>();
@@ -50,19 +50,26 @@ public class ChatPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.SOUTH);
 
-        sendButton.addActionListener(new ActionListener() {
+        ActionListener actionListener = e -> {
+            System.out.println(userInput.getText());
+            String input = userInput.getText();
+            if (!input.isEmpty()) {
+                addUserMessage("You: " + input);
+                String response = chatController.getResponse(input);
+                addGPTMessage("GPT: " + response);
+                userInput.setText("");
+            }
+        };
+
+        userInput.addKeyListener(new KeyAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(userInput.getText());
-                String input = userInput.getText();
-                if (!input.isEmpty()) {
-                    addUserMessage("You: " + input);
-                    String response = chatController.getResponse(input);
-                    addGPTMessage("GPT: " + response);
-                    userInput.setText("");
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    actionListener.actionPerformed(null);
                 }
             }
         });
+        sendButton.addActionListener(actionListener);
     }
 
     private void addMessage(String message) {
