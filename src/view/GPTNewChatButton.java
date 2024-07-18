@@ -1,5 +1,7 @@
 package view;
 
+import view.Util.GraphicUtils;
+
 import javax.swing.*;
 import java.awt.*;
 

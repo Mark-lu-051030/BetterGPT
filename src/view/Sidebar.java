@@ -1,5 +1,7 @@
 package view;  // Ensure this is at the top of your Sidebar.java file
 
+import view.Util.GraphicUtils;
+
 import javax.swing.*;
 import java.awt.*;
 
