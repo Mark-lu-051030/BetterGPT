@@ -9,7 +9,7 @@ public class ChatService {
         this.gptApiClient = gptApiClient;
     }
 
-    public String getChatResponse(String prompt) {
-        return gptApiClient.getChatCompletion(prompt);
+    public String generateResponse(String userInput) {
+        return gptApiClient.getChatCompletion(userInput);
     }
 }

@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.ChatController;
 import view.Util.GraphicUtils;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ public class ViewManager {
     private JFrame frame;
     private JButton button1, button2;
 
-    public ViewManager() {
+    public ViewManager(ChatController chatController) {
         frame = new JFrame("BetterGPT");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -25,12 +26,12 @@ public class ViewManager {
         contentPanel.setBackground(GraphicUtils.HexToColor("#212121"));
         frame.setContentPane(contentPanel);  // Apply the content panel to the frame
 
-        initializeComponents();
+        initializeComponents(chatController);
         frame.pack();
         frame.setVisible(true);  // Make the frame visible after all modifications
     }
 
-    private void initializeComponents() {
+    private void initializeComponents(ChatController chatController) {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
 
@@ -43,7 +44,7 @@ public class ViewManager {
         constraints.gridheight = GridBagConstraints.REMAINDER; // Occupy the remainder of the grid's vertical space
         frame.getContentPane().add(sideBar.getSidebar(), constraints);  // Add to the content pane
 
-        ChatPanel chatPanel = new ChatPanel();
+        ChatPanel chatPanel = new ChatPanel(chatController);
         constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.weightx = 1;
