@@ -1,63 +1,60 @@
 package view;
 
 import interface_adapter.ChatController;
+import view.Util.DefaultButton;
+import view.Util.DefaultScrollPane;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class ChatPanel extends JPanel {
-    private ArrayList<JTextArea> currentMessages;
-    private JPanel chatArea;
+    private ChatArea chatArea;
+    private DefaultScrollPane chatScrollPane;
     private ChatBox userInput;
-    private JButton sendButton;
-    private JScrollPane scrollPane;
-    private GridBagConstraints gbc;
+    private DefaultButton sendButton;
+    private GridBagConstraints constraints;
+    private Font textFont = new Font("Arial", Font.PLAIN, 20);
+    private Color backgroundColor = Color.darkGray;
 
     public ChatPanel(ChatController chatController) {
         setLayout(new BorderLayout()); // Use BorderLayout for main panel
 
-        currentMessages = new ArrayList<>();
-        chatArea = new JPanel();
-        chatArea.setLayout(new GridBagLayout()); // Use GridBagLayout for chatArea
-        chatArea.setBackground(Color.darkGray);
+        chatArea = new ChatArea(this, textFont, backgroundColor);
 
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = GridBagConstraints.RELATIVE;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        chatScrollPane = new DefaultScrollPane(chatArea);
+        userInput = new ChatBox("", textFont);
 
-        scrollPane = new JScrollPane(chatArea);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Prevent horizontal scrolling
-
-        userInput = new ChatBox("");
-        Font font = new Font("Monospaced", Font.PLAIN, 20);
-
-        sendButton = new JButton("Send");
-        sendButton.setFont(font);
+        sendButton = new DefaultButton("↑");
+        sendButton.setPreferredSize(new Dimension(30, 30));
+        sendButton.setBorder(new EmptyBorder(5, 5, 5, 5));
+        sendButton.setFont(textFont);
 
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new BorderLayout());
-        inputPanel.add(userInput, BorderLayout.CENTER);
-        inputPanel.add(sendButton, BorderLayout.EAST);
+        inputPanel.setBackground(backgroundColor);
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS));
+        inputPanel.add(Box.createRigidArea(new Dimension(20,0)));
+        inputPanel.add(userInput);
+        inputPanel.add(Box.createRigidArea(new Dimension(5,0)));
+        inputPanel.add(sendButton);
+        inputPanel.add(Box.createRigidArea(new Dimension(40,0)));
 
-        add(scrollPane, BorderLayout.CENTER);
+        add(chatScrollPane, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.SOUTH);
 
         ActionListener actionListener = e -> {
             System.out.println(userInput.getText());
             String input = userInput.getText();
             if (!input.isEmpty()) {
-                addUserMessage("You: " + input);
-                String response = chatController.getResponse(input);
-                addGPTMessage("GPT: " + response);
-                userInput.setText("");
+                SwingUtilities.invokeLater(() -> {
+                    chatArea.addMessage(true, "You: " + input);
+                    String response = chatController.getResponse(input);
+                    chatArea.addMessage(false, "GPT: " + response);
+                    userInput.setText("");
+                });
             }
         };
 
@@ -70,37 +67,5 @@ public class ChatPanel extends JPanel {
             }
         });
         sendButton.addActionListener(actionListener);
-    }
-
-    private void addMessage(String message) {
-        ChatBox newChat = new ChatBox(message); // Create a new ChatBox with the same text as userInput
-        newChat.setEditable(false);
-        newChat.setBackground(Color.LIGHT_GRAY);
-        currentMessages.add(newChat);
-        chatArea.add(newChat, gbc);
-        // Only revalidate and repaint after all messages are added
-        if (!scrollPane.getVerticalScrollBar().isVisible()) {
-            revalidateAndRepaint();
-        } else {
-            SwingUtilities.invokeLater(() -> {
-                chatArea.revalidate();
-                chatArea.repaint();
-                JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
-                verticalBar.setValue(verticalBar.getMaximum());
-            });
-        }
-    }
-
-    private void addUserMessage(String message) {
-        addMessage(message);
-    }
-
-    private void addGPTMessage(String message) {
-        addMessage(message);
-    }
-
-    private void revalidateAndRepaint() {
-        chatArea.revalidate();
-        chatArea.repaint();
     }
 }
