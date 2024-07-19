@@ -18,6 +18,16 @@ public class User {
         this.conversations = new ArrayList<>();
     }
 
+    public User(String userName, String password)
+    {
+        //Important!! This constructor is ONLY used in phase 1! It is a basic constructor!
+
+        this.userName = userName;
+        this.password = password;
+        this.email = "";
+        this.conversations = new ArrayList<>();
+    }
+
     public String getUserName() {
         return userName;
     }
