@@ -5,7 +5,7 @@ import entity.User;
 
 import java.sql.SQLException;
 
-public class SignupService
+public class SignUpService
 {
     //this class has some static methods for us to do the signup request.
     public static boolean signUp(String input_username, String input_password) throws SQLException {
