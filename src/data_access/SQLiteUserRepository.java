@@ -38,13 +38,11 @@ public class SQLiteUserRepository {
         }
     }
 
-    public void updateUser(User user) {
-        String sql = "UPDATE users SET password = ?, email = ? WHERE username = ?";
+    public void updateUserPwd(User user) {
+        String sql = "UPDATE users SET password = ?";
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getUserPassword());
-            pstmt.setString(3, user.getUserEmail());
             pstmt.executeUpdate();
         }
         catch (SQLException e) {
