@@ -1,4 +1,4 @@
-package src.use_case;
+package use_case;
 
 public class SignupInput {
 
