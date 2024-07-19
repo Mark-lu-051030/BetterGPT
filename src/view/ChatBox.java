@@ -9,14 +9,16 @@ import java.awt.event.ComponentEvent;
 
 public class ChatBox extends JTextArea {
     private String message;
+    private Font textFont;
 
-    public ChatBox(String message) {
+    public ChatBox(String message, Font textFont) {
         this.message = message;
+        this.textFont = textFont;
         setText(message);
+        setFont(textFont);
         setPreferredSize(new Dimension(500, 20));
         setLineWrap(true);
         setWrapStyleWord(true);
-        setFont(new Font("Serif", Font.PLAIN, 25));
         adjustHeight();
 
         getDocument().addDocumentListener(new DocumentListener() {
