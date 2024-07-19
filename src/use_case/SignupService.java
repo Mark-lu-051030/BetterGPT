@@ -24,6 +24,7 @@ public class SignupService
         else
         {
             sql.addUser(new User(input_username, input_password));
+            System.out.println("Successfully signed up!");
             return true;
         }
 
