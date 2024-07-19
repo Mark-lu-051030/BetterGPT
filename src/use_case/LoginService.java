@@ -4,7 +4,6 @@ import java.io.File;
 public class LoginService
 {
 
-    private final String TEMP_USER_DATA = "..\\localdata\\userdata.txt";
     private String username;
     private String password;
 
