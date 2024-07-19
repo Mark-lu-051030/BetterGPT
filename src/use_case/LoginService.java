@@ -1,5 +1,4 @@
 package use_case;
-import java.io.File;
 
 public class LoginService
 {
