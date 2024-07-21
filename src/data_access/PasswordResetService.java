@@ -1,4 +1,4 @@
-package use_case;
+package data_access;
 
 import java.util.UUID;
 import java.util.HashMap;

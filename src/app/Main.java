@@ -20,13 +20,7 @@ public class Main {
                 ChatService chatService = new ChatService(gptApiClient);
                 ChatController chatController = new ChatController(chatService);
 
-                User newUser = new User("john_doe", "password123", "john@example.com");
-                try {
-                    userRepository.addUser(newUser);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                System.out.println("User added: " + newUser.getUserName());
+
 
                 new ViewManager(chatController);
             }

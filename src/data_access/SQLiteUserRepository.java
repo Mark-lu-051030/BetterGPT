@@ -20,7 +20,7 @@ public class SQLiteUserRepository {
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getStackTrace();
         }
     }
 
@@ -34,7 +34,7 @@ public class SQLiteUserRepository {
             pstmt.executeUpdate();
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getStackTrace();
         }
     }
 
@@ -46,7 +46,7 @@ public class SQLiteUserRepository {
             pstmt.executeUpdate();
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getStackTrace();
         }
     }
 
@@ -62,7 +62,7 @@ public class SQLiteUserRepository {
                                 rs.getString("email"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getStackTrace();
         }
         return null;
     }
