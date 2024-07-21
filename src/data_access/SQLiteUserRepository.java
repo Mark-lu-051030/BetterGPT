@@ -3,13 +3,22 @@ package data_access;
 import entity.*;
 import java.sql.*;
 
+/**
+ * SQLiteUserRepository handles user-related database operations using SQLite.
+ */
 public class SQLiteUserRepository {
     private static final String URL = "jdbc:sqlite:users.db";
 
+    /**
+     * Constructs a new SQLiteUserRepository and creates the users table if it doesn't exist.
+     */
     public SQLiteUserRepository() {
         createTable();
     }
 
+    /**
+     * Creates the users table if it doesn't exist.
+     */
     private void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS users ("
                 + "username TEXT PRIMARY KEY,"
@@ -24,6 +33,11 @@ public class SQLiteUserRepository {
         }
     }
 
+    /**
+     * Add new user to the database
+     * @param user User Object need to be added
+     * @throws SQLException if a database access error occurs
+     */
     public void addUser(User user) throws SQLException {
         String sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(URL);
@@ -38,6 +52,11 @@ public class SQLiteUserRepository {
         }
     }
 
+    /**
+     * Updates the password for an existing user.
+     *
+     * @param user the User object with the updated password
+     */
     public void updateUserPwd(User user) {
         String sql = "UPDATE users SET password = ?";
         try (Connection conn = DriverManager.getConnection(URL);
@@ -50,6 +69,12 @@ public class SQLiteUserRepository {
         }
     }
 
+    /**
+     * Finds a user by their username.
+     *
+     * @param username the username of the user to be found
+     * @return the User object if found, or null if not found
+     */
     public User findByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
         try (Connection conn = DriverManager.getConnection(URL);

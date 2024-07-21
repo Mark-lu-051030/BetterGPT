@@ -15,7 +15,8 @@ BetterGPT is a subscription-based chatbot leveraging OpenAI’s GPT-4. It allows
 - [Architecture](#architecture)
 - [Entities](#entities)
 - [Classes and Functions](#classes-and-functions)
-- [Testing](#test-coverage)
+- [Testing](#testing)
+- [Contributing](#contributing)
 
 
 ## Prerequisites
@@ -134,4 +135,6 @@ Manages the overall view and layout of the application
 
 ## Testing
 ### Test Coverage
+
+## Contributing
 

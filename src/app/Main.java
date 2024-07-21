@@ -20,8 +20,6 @@ public class Main {
                 ChatService chatService = new ChatService(gptApiClient);
                 ChatController chatController = new ChatController(chatService);
 
-
-
                 new ViewManager(chatController);
             }
         });
