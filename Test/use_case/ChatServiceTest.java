@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ChatServiceTest {
 
     @Test
-    void generateResponse() {
+    void generateResponse()
+    {
 
     }
 }
