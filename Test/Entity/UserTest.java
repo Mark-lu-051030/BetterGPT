@@ -1,3 +1,4 @@
+package Entity;
 
 import entity.User;
 import junit.framework.TestCase;
