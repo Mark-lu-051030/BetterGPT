@@ -15,7 +15,7 @@
     <version>1.0</version>
 
     <dependencies>
-             
+
         <dependency>
             <groupId>com.theokanning.openai-gpt3-java</groupId>
             <artifactId>api</artifactId>
@@ -61,6 +61,20 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.7.7</version>
             <scope>test</scope>
         </dependency>
 

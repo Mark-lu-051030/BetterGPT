@@ -1,18 +1,28 @@
 package use_case;
 
-import com.theokanning.openai.completion.chat.ChatCompletionRequest;
-import com.theokanning.openai.completion.chat.ChatCompletionResult;
-import com.theokanning.openai.service.OpenAiService;
-import data_access.DataHandler;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChatServiceTest {
+    private ChatService chatService;
+    private ChatClient mockChatClient;
+
+    @BeforeEach
+    void setUp() {
+        mockChatClient = mock(ChatClient.class);
+        chatService = new ChatService(mockChatClient);
+    }
 
     @Test
-    void generateResponse()
-    {
+    void generateResponse() {
+        String prompt = "Hello, World!";
+        String expectedResponse = "Hello!";
 
+        when(mockChatClient.getChatCompletion(prompt)).thenReturn(expectedResponse);
+        String response = chatService.generateResponse(prompt);
+        verify(mockChatClient).getChatCompletion(prompt);
+        assertEquals(expectedResponse, response);
     }
 }

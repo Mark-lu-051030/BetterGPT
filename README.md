@@ -136,6 +136,7 @@ Manages the overall view and layout of the application
 ## Testing
 ### Test Coverage
 
+
 ## Contribution
 Everyone in the group contributed and put effort into the project.
 
