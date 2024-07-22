@@ -3,6 +3,7 @@ package Entity;
 import entity.User;
 import junit.framework.TestCase;
 
+
 public class UserTest extends TestCase {
 
     private User user;
