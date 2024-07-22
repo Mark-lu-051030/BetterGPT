@@ -25,9 +25,9 @@ class SignInServiceTest {
 
     @Test
     void testSignInSuccessful() throws SQLException {
-        String username = "existing name";
-        String password = "correct password";
-        User mockUser = new User(username, password, "existing email");
+        String username = "existingUser";
+        String password = "correctPassword";
+        User mockUser = new User(username, password, "email@example.com");
 
         when(mockUserRepository.findByUsername(username)).thenReturn(mockUser);
         boolean result = SignInService.signIn(username, password, mockUserRepository);
@@ -39,16 +39,16 @@ class SignInServiceTest {
         String username = "name";
         String password = "password";
 
-        when(mockUserRepository.findByUsername(username)).thenReturn();
+        when(mockUserRepository.findByUsername(username)).thenReturn(null);
         boolean result = SignInService.signIn(username, password, mockUserRepository);
         assertFalse(result);
     }
 
     @Test
     void testSignInWrongPassword() throws SQLException {
-        String username = "existing name";
-        String password = "wrong password";
-        User mockUser = new User(username, "correct password", "existing email");
+        String username = "existingUser";
+        String password = "wrongPassword";
+        User mockUser = new User(username, "correctPassword", "existing email");
 
         when(mockUserRepository.findByUsername(username)).thenReturn(mockUser);
         boolean result = SignInService.signIn(username, password, mockUserRepository);
