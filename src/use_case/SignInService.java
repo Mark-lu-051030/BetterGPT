@@ -8,12 +8,10 @@ public class SignInService
 
     //this class has some static methods for us to do the signin request.
 
-    public static boolean signIn(String input_username, String input_password) throws SQLException
+    public static boolean signIn(String input_username, String input_password, SQLiteUserRepository sql) throws SQLException
     {
         //this is just a beta edition. At the end we have to write our own error to indicate
         //why this user fails its sign in. For example, password wrong, short period request too many times
-
-        SQLiteUserRepository sql = new SQLiteUserRepository();
 
         if(sql.findByUsername(input_username) != null)
         {
