@@ -13,7 +13,7 @@ public class SignInService
         //this is just a beta edition. At the end we have to write our own error to indicate
         //why this user fails its sign in. For example, password wrong, short period request too many times
 
-        if(sql.findByUsername(input_username) != null)
+        if(sql.findByUsername(input_username) == null)
         {
             System.out.println("This username does not exist! Please sign in first!");
             return false;
