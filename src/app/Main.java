@@ -15,7 +15,7 @@ public class Main {
             public void run() {
                 SQLiteUserRepository userRepository = new SQLiteUserRepository();
 
-                String apiKey = "sk-proj-R28ol8hXTZvbitrM96dfT3BlbkFJ1vvGN44cRIZHmhV3ZnEh";
+                String apiKey = ApiKeyProvider.getApiKey();
                 GptApiClient gptApiClient = new GptApiClient(apiKey);
                 ChatService chatService = new ChatService(gptApiClient);
                 ChatController chatController = new ChatController(chatService);
