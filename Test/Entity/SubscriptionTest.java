@@ -3,8 +3,6 @@ package Entity;
 import junit.framework.TestCase;
 import entity.Subscription;
 
-
-
 public class SubscriptionTest extends TestCase {
 
     private Subscription subscription;
