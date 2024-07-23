@@ -42,6 +42,7 @@ public class SQLiteUserRepository {
                 + "conversation_id INTEGER NOT NULL,"
                 + "content TEXT NOT NULL,"
                 + "timestamp TEXT NOT NULL,"
+                + "role TEXT NOT NULL,"
                 + "FOREIGN KEY (conversation_id) REFERENCES conversations(id))";
 
         try (Connection conn = DriverManager.getConnection(URL);
@@ -145,12 +146,13 @@ public class SQLiteUserRepository {
     }
 
     public void addMessage(Message message) {
-        String sql = "INSERT INTO messages (conversation_id, content, timestamp) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO messages (conversation_id, content, timestamp) VALUES (?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, message.getCoversationId());
             pstmt.setString(2, message.getContent());
             pstmt.setString(3, message.getTimestamp().toString());
+            pstmt.setString(4, message.getRole());
             pstmt.executeUpdate();
 
             updateConversation(new Conversation(message.getCoversationId(), null, null, LocalDateTime.now()));
@@ -191,7 +193,8 @@ public class SQLiteUserRepository {
                 messages.add(new Message(rs.getInt("id"),
                         rs.getInt("conversation_id"),
                         rs.getString("content"),
-                        LocalDateTime.parse(rs.getString("timestamp"))));
+                        LocalDateTime.parse(rs.getString("timestamp")),
+                        rs.getString("role")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

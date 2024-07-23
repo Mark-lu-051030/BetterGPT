@@ -8,13 +8,15 @@ public class Message implements Serializable {
     private int conversationId;
     private String content;
     private final LocalDateTime timestamp;
+    private String role;
 
 
-    public Message(int id, int conversationId, String content, LocalDateTime timestamp) {
+    public Message(int id, int conversationId, String content, LocalDateTime timestamp, String role) {
         this.id = id;
         this.conversationId = conversationId;
         this.timestamp = timestamp;
         this.content = content;
+        this.role = role;
     }
 
     public int getId() {
@@ -43,5 +45,13 @@ public class Message implements Serializable {
 
     public LocalDateTime getTimestamp() {
         return timestamp;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
