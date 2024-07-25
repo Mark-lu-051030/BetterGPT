@@ -6,27 +6,39 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A custom toggle button with customizable text and color for selected and unselected states.
+ */
 public class DefaultToggleButton extends JToggleButton {
     private String selectedText;
     private String unselectedText;
     private Color selectedColor;
     private Color unselectedColor;
-    private Dimension size = new Dimension(80,20);
+    private Dimension size = new Dimension(80, 20);
 
-    public DefaultToggleButton(String selectedText, String unselectedText, Color selectedCcolor, Color unselectedCcolor, Font font) {
+    /**
+     * Constructs a DefaultToggleButton with specified text, colors, and font.
+     *
+     * @param selectedText   The text to display when the button is selected.
+     * @param unselectedText The text to display when the button is unselected.
+     * @param selectedColor  The background color when the button is selected.
+     * @param unselectedColor The background color when the button is unselected.
+     * @param font           The font to use for the button text.
+     */
+    public DefaultToggleButton(String selectedText, String unselectedText, Color selectedColor, Color unselectedColor, Font font) {
         super(unselectedText);
         this.selectedText = selectedText;
         this.unselectedText = unselectedText;
-        this.selectedColor = selectedCcolor;
-        this.unselectedColor = unselectedCcolor;
+        this.selectedColor = selectedColor;
+        this.unselectedColor = unselectedColor;
 
         setMaximumSize(size);
         setMinimumSize(size);
         setPreferredSize(size);
 
-        setBackground(unselectedCcolor);
+        setBackground(unselectedColor);
         setFont(font);
-        setBorder(new LineBorder(Color.black,2));
+        setBorder(new LineBorder(Color.black, 2));
         setFocusPainted(false);
         setContentAreaFilled(false);
         setOpaque(true);
@@ -40,10 +52,21 @@ public class DefaultToggleButton extends JToggleButton {
         });
     }
 
+    /**
+     * Constructs a DefaultToggleButton with specified text and default colors and font.
+     *
+     * @param selectedText   The text to display when the button is selected.
+     * @param unselectedText The text to display when the button is unselected.
+     */
     public DefaultToggleButton(String selectedText, String unselectedText) {
         this(selectedText, unselectedText, Color.GREEN, Color.LIGHT_GRAY, new Font("Arial", Font.BOLD, 12));
     }
 
+    /**
+     * Paints the component with the appropriate background color and text based on the button's state.
+     *
+     * @param g The Graphics object to protect.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         if (isSelected()) {
@@ -56,4 +79,3 @@ public class DefaultToggleButton extends JToggleButton {
         super.paintComponent(g);
     }
 }
-

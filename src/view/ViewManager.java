@@ -6,10 +6,18 @@ import view.Util.GraphicUtils;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The {@code ViewManager} class is responsible for setting up and managing the main JFrame
+ * and its components for the BetterGPT application.
+ */
 public class ViewManager {
     private JFrame frame;
-    private JButton button1, button2;
 
+    /**
+     * Constructs a {@code ViewManager} and initializes the main JFrame and its components.
+     *
+     * @param chatController the {@code ChatController} used to manage chat functionalities
+     */
     public ViewManager(ChatController chatController) {
         frame = new JFrame("BetterGPT");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,6 +39,11 @@ public class ViewManager {
         frame.setVisible(true);  // Make the frame visible after all modifications
     }
 
+    /**
+     * Initializes and adds the main components (sidebar and chat panel) to the frame.
+     *
+     * @param chatController the {@code ChatController} used to manage chat functionalities
+     */
     private void initializeComponents(ChatController chatController) {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
@@ -53,8 +66,12 @@ public class ViewManager {
         frame.getContentPane().add(chatPanel, constraints);  // Add to the content pane
     }
 
+    /**
+     * Returns the main JFrame of the application.
+     *
+     * @return the main JFrame
+     */
     public JFrame getFrame() {
         return frame;
     }
 }
-
