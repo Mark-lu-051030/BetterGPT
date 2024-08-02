@@ -15,31 +15,17 @@ public class User {
     private List<Conversation> conversations;
 
     /**
-     * Constructs a User with the specified username, password, and email.
-     *
-     * @param userName The username of the user.
-     * @param password The password of the user.
-     * @param email    The email of the user.
-     */
-    public User(String userName, String password, String email) {
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-        this.conversations = new ArrayList<>();
-    }
-
-    /**
      * Constructs a User with the specified username and password.
      * Note: This constructor is only used in phase 1 and sets the email to an empty string.
      *
      * @param userName The username of the user.
      * @param password The password of the user.
      */
-    public User(String userName, String password) {
-        // Important!! This constructor is ONLY used in phase 1! It is a basic constructor!
+    public User(String userName, String password, String email, Subscription subscription) {
         this.userName = userName;
         this.password = password;
-        this.email = "";
+        this.email = email;
+        this.subscription = subscription;
         this.conversations = new ArrayList<>();
     }
 

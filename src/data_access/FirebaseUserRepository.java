@@ -1,13 +1,9 @@
 package data_access;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.*;
 import entity.User;
 
-public class FirebaseUserRepository {
+public class FirebaseUserRepository implements UserRepository {
     private final DatabaseReference usersRef;
 
     public FirebaseUserRepository() {
@@ -15,6 +11,7 @@ public class FirebaseUserRepository {
         usersRef = database.getReference("users");
     }
 
+    @Override
     public void addUser(User user) {
         usersRef.child(user.getUserName()).setValueAsync(user);
     }
@@ -55,11 +52,8 @@ public class FirebaseUserRepository {
         });
     }
 
+    @Override
     public void updateUser(User user) {
         usersRef.child(user.getUserName()).setValueAsync(user);
-    }
-
-    public interface UserCallback {
-        void onCallback(User user);
     }
 }
