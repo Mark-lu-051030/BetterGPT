@@ -21,11 +21,10 @@ public class User {
      * @param userName The username of the user.
      * @param password The password of the user.
      */
-    public User(String userName, String password, String email, Subscription subscription) {
+    public User(String userName, String password, String email) {
         this.userName = userName;
         this.password = password;
         this.email = email;
-        this.subscription = subscription;
         this.conversations = new ArrayList<>();
     }
 
