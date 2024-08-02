@@ -1,5 +1,6 @@
 package app;
 
+import data_access.FirebaseUserRepository;
 import view.ViewManager;
 import data_access.GptApiClient;
 import interface_adapter.ChatController;
@@ -11,11 +12,15 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
+        FirebaseInitializer.initialize();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                SQLiteUserRepository userRepository = new SQLiteUserRepository();
+                FirebaseUserRepository userRepository = new FirebaseUserRepository();
 
-                String apiKey = ApiKeyProvider.getApiKey();
+                User newUser = new User("testuser", "password123", "testuser@example.com");
+                userRepository.addUser(newUser);
+
+                String apiKey = ApiKeyProvider.getApiKey("SERVICE_OPENAI");
                 GptApiClient gptApiClient = new GptApiClient(apiKey);
                 ChatService chatService = new ChatService(gptApiClient);
                 ChatController chatController = new ChatController(chatService);
