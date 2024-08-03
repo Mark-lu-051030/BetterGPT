@@ -3,6 +3,9 @@ package data_access;
 import com.google.firebase.database.*;
 import entity.User;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class FirebaseUserRepository implements UserRepository {
     private final DatabaseReference usersRef;
 
@@ -50,6 +53,13 @@ public class FirebaseUserRepository implements UserRepository {
                 callback.onCallback(null);
             }
         });
+    }
+
+    public void addConversationIdToUser(String username, String conversationId) {
+        Map<String, Object> conversationUpdate = new HashMap<>();
+        conversationUpdate.put(conversationId, true);
+
+        usersRef.child(username).child("conversations").updateChildrenAsync(conversationUpdate);
     }
 
     @Override

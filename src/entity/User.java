@@ -14,6 +14,8 @@ public class User {
     private Subscription subscription;
     private List<Conversation> conversations;
 
+    public User() {}
+
     /**
      * Constructs a User with the specified username and password.
      * Note: This constructor is only used in phase 1 and sets the email to an empty string.

@@ -1,30 +1,37 @@
 package entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDateTime;
 
 public class Conversation implements Serializable {
-    private int id;
+    private String id;
     private String username;
     private List<Message> messages;
-    private final LocalDateTime creationTime;
+    private LocalDateTime creationTime;
     private LocalDateTime modificationTime;
 
-    public Conversation(int id, String username, LocalDateTime creationTime, LocalDateTime now) {
+    public Conversation() {
+        this.messages = new ArrayList<>();
+        this.creationTime = LocalDateTime.now();
+        this.modificationTime = LocalDateTime.now();
+    }
+
+    public Conversation(String id, String username, LocalDateTime creationTime, LocalDateTime modificationTime) {
         this.id = id;
         this.username = username;
         this.creationTime = creationTime;
-        this.modificationTime = LocalDateTime.now();
+        this.modificationTime = modificationTime;
         this.messages = new ArrayList<>();
     }
 
-    public int getId() {
+    // Getters and setters
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -40,13 +47,17 @@ public class Conversation implements Serializable {
         return messages;
     }
 
-    public void setMessages(Message message) {
+    public void addMessage(Message message) {
         this.messages.add(message);
         this.modificationTime = LocalDateTime.now();
     }
 
     public LocalDateTime getCreationTime() {
         return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 
     public LocalDateTime getModificationTime() {

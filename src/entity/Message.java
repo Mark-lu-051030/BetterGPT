@@ -4,35 +4,39 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Message implements Serializable {
-    private int id;
-    private int conversationId;
+    private String id;
+    private String conversationId;
     private String content;
-    private final LocalDateTime timestamp;
+    private LocalDateTime timestamp;
     private String role;
 
+    public Message() {
 
-    public Message(int id, int conversationId, String content, LocalDateTime timestamp, String role) {
+    }
+
+    public Message(String id, String conversationId, String content, LocalDateTime timestamp, String role) {
         this.id = id;
         this.conversationId = conversationId;
-        this.timestamp = timestamp;
         this.content = content;
+        this.timestamp = timestamp;
         this.role = role;
     }
 
-    public int getId() {
+    // Getters and setters
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getCoversationId() {
+    public String getConversationId() {
         return conversationId;
     }
 
-    public void setCoversationId(int coversationId) {
-        this.conversationId = coversationId;
+    public void setConversationId(String conversationId) {
+        this.conversationId = conversationId;
     }
 
     public String getContent() {
@@ -45,6 +49,10 @@ public class Message implements Serializable {
 
     public LocalDateTime getTimestamp() {
         return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getRole() {
