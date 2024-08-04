@@ -66,4 +66,18 @@ public class FirebaseUserRepository implements UserRepository {
     public void updateUser(User user) {
         usersRef.child(user.getUserName()).setValueAsync(user);
     }
+
+    @Override
+    public void updatePassword(String username, String newPassword) {
+        usersRef.child(username).child("password").setValue(newPassword, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    System.err.println("Failed to update password: " + databaseError.getMessage());
+                } else {
+                    System.out.println("Password updated successfully");
+                }
+            }
+        });
+    }
 }
