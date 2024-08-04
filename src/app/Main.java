@@ -3,11 +3,9 @@ package app;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import data_access.FirebaseConversationsRepository;
-import data_access.FirebaseUserRepository;
+import data_access.*;
 import use_case.SignInService;
 import view.ViewManager;
-import data_access.GptApiClient;
 import interface_adapter.ChatController;
 import use_case.ChatService;
 import entity.*;
@@ -53,7 +51,21 @@ public class Main {
                 message.setTimestamp(LocalDateTime.now());
                 message.setRole("user");
 
-                conversationsRepository.addMessage("-O3LLeMWamyWV3sISDdg", message); */
+                conversationsRepository.addMessage("-O3LLeMWamyWV3sISDdg", message);
+
+
+                FirebaseEmailTokenRepository Repository = new FirebaseEmailTokenRepository();
+
+                Repository.retrieveEmailAndToken("example@example.com", new EmailTokenRepository.TokenCallback() {
+                    @Override
+                    public void onCallback(String token) {
+                        if (token != null) {
+                            System.out.println("Retrieved token: " + token);
+                        } else {
+                            System.out.println("Failed to retrieve token.");
+                        }
+                    }
+                });*/
 
                 String apiKey = ApiKeyProvider.getApiKey("SERVICE_OPENAI");
                 GptApiClient gptApiClient = new GptApiClient(apiKey);
