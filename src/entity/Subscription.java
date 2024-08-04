@@ -1,7 +1,9 @@
 package entity;
 
 public class Subscription
+
 {
+
     private String level;
     private long remain_time_sec;
 
