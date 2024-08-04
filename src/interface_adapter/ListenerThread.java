@@ -1,35 +1,37 @@
 package interface_adapter;
 
-import interface_adapter.ConsoleListener;
-
 import java.util.Scanner;
 
-public class ListenerThread extends Thread
-{
+/**
+ * A thread that continuously listens for console input using a ConsoleListener.
+ */
+public class ListenerThread extends Thread {
     public volatile boolean exit = false;
-    private ConsoleListener consolelistener;
+    private ConsoleListener consoleListener;
 
-    public ListenerThread()
-    {
-        this.consolelistener = new ConsoleListener(new Scanner(System.in));
+    /**
+     * Constructs a ListenerThread with a new ConsoleListener.
+     */
+    public ListenerThread() {
+        this.consoleListener = new ConsoleListener(new Scanner(System.in));
     }
 
-    public void run()
-    {
-        while(!exit)
-        {
-            this.consolelistener.listen();
+    /**
+     * Runs the thread, continuously listening for console input until the exit flag is set.
+     */
+    @Override
+    public void run() {
+        while (!exit) {
+            this.consoleListener.listen();
         }
-        System.out.println("Thread is interruptted!");
+        System.out.println("Thread is interrupted!");
     }
 
-    public void setExit()
-    {
+    /**
+     * Sets the exit flag to true, causing the run loop to terminate.
+     */
+    public void setExit() {
         this.exit = true;
-        System.out.println("exit has been set to true!");
+        System.out.println("Exit has been set to true!");
     }
-
-
 }
-
-

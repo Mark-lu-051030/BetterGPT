@@ -1,34 +1,37 @@
 package use_case;
-import data_access.SQLiteUserRepository;
 
-import java.sql.SQLException;
+import data_access.UserRepository;
+import entity.User;
 
-public class SignInService
-{
+/**
+ * Service class for handling user sign-in requests.
+ */
+public class SignInService {
+    /**
+     * Signs in a user with the given username and password.
+     *
+     * @param input_username The username of the user attempting to sign in.
+     * @param input_password The password of the user attempting to sign in.
+     * @param userRepository  An instance of UserRepository to access the database.
+     * */
+    public static void signIn(String input_username, String input_password,
+                              UserRepository userRepository, SignInCallback callback) {
+        userRepository.findByUsername(input_username, new UserRepository.UserCallback() {
+            @Override
+            public void onCallback(User user) {
+                if (user == null) {
+                    callback.onSignInResult(false,
+                            "This username does not exist! Please sign up first!");
+                } else if (!user.getUserPassword().equals(input_password)) {
+                    callback.onSignInResult(false, "Wrong password! Please try again!");
+                } else {
+                    callback.onSignInResult(true, "Successfully signed in!");
+                }
+            }
+        });
+    }
 
-    //this class has some static methods for us to do the signin request.
-
-    public static boolean signIn(String input_username, String input_password) throws SQLException
-    {
-        //this is just a beta edition. At the end we have to write our own error to indicate
-        //why this user fails its sign in. For example, password wrong, short period request too many times
-
-        SQLiteUserRepository sql = new SQLiteUserRepository();
-
-        if(sql.findByUsername(input_username) != null)
-        {
-            System.out.println("This username does not exist! Please sign in first!");
-            return false;
-        }
-        else if(! sql.findByUsername(input_username).getUserPassword().equals(input_password))
-        {
-            System.out.println("Wrong password! Please try again!");
-            return false;
-        }
-        else
-        {
-            System.out.println("Successfully signed in!");
-            return true;
-        }
+    public interface SignInCallback {
+        void onSignInResult(boolean success, String message);
     }
 }

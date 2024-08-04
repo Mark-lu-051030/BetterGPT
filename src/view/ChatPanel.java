@@ -11,6 +11,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * The {@code ChatPanel} class is responsible for creating and managing the chat panel
+ * component of the BetterGPT application. This includes the chat area, user input field,
+ * and send button.
+ */
 public class ChatPanel extends JPanel {
     private ChatArea chatArea;
     private DefaultScrollPane chatScrollPane;
@@ -20,6 +25,11 @@ public class ChatPanel extends JPanel {
     private Font textFont = new Font("Arial", Font.PLAIN, 20);
     private Color backgroundColor = Color.darkGray;
 
+    /**
+     * Constructs a {@code ChatPanel} and initializes its components.
+     *
+     * @param chatController the {@code ChatController} used to manage chat functionalities
+     */
     public ChatPanel(ChatController chatController) {
         setLayout(new BorderLayout()); // Use BorderLayout for main panel
 
@@ -36,11 +46,11 @@ public class ChatPanel extends JPanel {
         JPanel inputPanel = new JPanel();
         inputPanel.setBackground(backgroundColor);
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS));
-        inputPanel.add(Box.createRigidArea(new Dimension(20,0)));
+        inputPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         inputPanel.add(userInput);
-        inputPanel.add(Box.createRigidArea(new Dimension(5,0)));
+        inputPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         inputPanel.add(sendButton);
-        inputPanel.add(Box.createRigidArea(new Dimension(40,0)));
+        inputPanel.add(Box.createRigidArea(new Dimension(40, 0)));
 
         add(chatScrollPane, BorderLayout.CENTER);
         add(inputPanel, BorderLayout.SOUTH);

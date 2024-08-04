@@ -1,91 +1,111 @@
 package interface_adapter;
-import javax.swing.*;
+
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * A class that listens for console input and triggers corresponding actions.
+ */
+public class ConsoleListener {
 
-public class ConsoleListener
-{
-
-    public static class Action
-    {
-        public static void act(String msg)
-        {
+    /**
+     * A nested static class representing an action to be performed on receiving a message.
+     */
+    public static class Action {
+        /**
+         * Performs the action associated with the received message.
+         *
+         * @param msg The message received from the console.
+         */
+        public static void act(String msg) {
             System.out.println("Receive message: " + msg);
         }
     }
 
-    public Scanner scanner;
-    public HashMap<String, Action> reply;
-    public Action defaultaction;
-
+    private Scanner scanner;
+    private HashMap<String, Action> reply = new HashMap<>();
+    private Action defaultAction;
     private boolean status = true;
 
-
-    public ConsoleListener(Scanner inputscan)
-    {
-        this.scanner = inputscan;
+    /**
+     * Constructs a ConsoleListener with the specified input scanner.
+     *
+     * @param inputScan The Scanner to read console input from.
+     */
+    public ConsoleListener(Scanner inputScan) {
+        this.scanner = inputScan;
     }
 
-    public void addAction(String inputmsg, Action inputact)
-    {
-        this.reply.put(inputmsg, inputact);
+    /**
+     * Adds an action to be triggered for a specific input message.
+     *
+     * @param inputMsg The message to trigger the action.
+     * @param inputAct The action to be performed.
+     */
+    public void addAction(String inputMsg, Action inputAct) {
+        this.reply.put(inputMsg, inputAct);
     }
 
-    public void removeAction(String inputmsg, Action inputact)
-    {
-        this.reply.remove(inputmsg, inputact);
+    /**
+     * Removes an action associated with a specific input message.
+     *
+     * @param inputMsg The message whose action should be removed.
+     * @param inputAct The action to be removed.
+     */
+    public void removeAction(String inputMsg, Action inputAct) {
+        this.reply.remove(inputMsg, inputAct);
     }
 
-    public Action replaceAction(String inputmsg, Action inputact)
-    {
-        return this.reply.replace(inputmsg, inputact);
+    /**
+     * Replaces an existing action with a new one for a specific input message.
+     *
+     * @param inputMsg The message whose action should be replaced.
+     * @param inputAct The new action to be set.
+     * @return The previous action associated with the message.
+     */
+    public Action replaceAction(String inputMsg, Action inputAct) {
+        return this.reply.replace(inputMsg, inputAct);
     }
 
-    public boolean checkStatus()
-    {
+    /**
+     * Checks the current status of the listener.
+     *
+     * @return true if the listener is active, false otherwise.
+     */
+    public boolean checkStatus() {
         return this.status;
     }
 
-    public void listenInNewThread()
-    {
-        Thread t = new Thread()
-        {
+    /**
+     * Listens for console input in a new thread.
+     */
+    public void listenInNewThread() {
+        Thread t = new Thread() {
             public volatile boolean exit = false;
-            public void run()
-            {
-                    listen();
 
-                System.out.println("Thread is interruptted!");
-
+            @Override
+            public void run() {
+                listen();
+                System.out.println("Thread is interrupted!");
             }
         };
 
         t.start();
-
-
-
     }
 
-    public void listen()
-    {
-        while(true)
-        {
+    /**
+     * Listens for console input and triggers actions based on the input messages.
+     */
+    public void listen() {
+        while (true) {
             String line = scanner.nextLine();
             Action.act(line);
 
-            if(line.equals("stop"))
-            {
-                System.out.println("Stop listen!");
+            if (line.equals("stop")) {
+                System.out.println("Stop listening!");
                 this.status = false;
                 break;
             }
-
         }
     }
-
-
-
-
 }
-

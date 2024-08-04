@@ -36,5 +36,4 @@ public class Subscription
         //If there is no remain time, do something.
 
     }
-
 }

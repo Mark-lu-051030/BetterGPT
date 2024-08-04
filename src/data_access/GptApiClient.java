@@ -18,7 +18,7 @@ public class GptApiClient implements ChatClient {
      * @param apiKey the API key for accessing the OpenAiService
      */
     public GptApiClient(String apiKey) {
-        this.service = new OpenAiService(apiKey);
+        this.service = new OpenAiService(apiKey.trim());
         this.dataHandler = new DataHandler();
     }
 

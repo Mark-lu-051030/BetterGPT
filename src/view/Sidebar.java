@@ -1,19 +1,29 @@
-package view;  // Ensure this is at the top of your Sidebar.java file
+package view;
 
 import view.Util.GraphicUtils;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The {@code Sidebar} class is responsible for creating and managing the sidebar
+ * component of the BetterGPT application.
+ */
 public class Sidebar {
     private JPanel sidebar;
 
+    /**
+     * Constructs a {@code Sidebar} and initializes the sidebar panel and its components.
+     */
     public Sidebar() {
         sidebar = new JPanel(new GridBagLayout());
         sidebar.setBackground(GraphicUtils.HexToColor("#171717"));
         initializePanel();
     }
 
+    /**
+     * Initializes the sidebar panel and adds the necessary components such as buttons and labels.
+     */
     private void initializePanel() {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.NONE;  // Use NONE to control size directly
@@ -56,8 +66,13 @@ public class Sidebar {
         constraints.gridheight = GridBagConstraints.REMAINDER;  // Span to the end
         sidebar.add(bottomFiller, constraints);
     }
+
+    /**
+     * Returns the sidebar panel.
+     *
+     * @return the sidebar panel
+     */
     public JPanel getSidebar() {
         return sidebar;
     }
 }
-
