@@ -80,4 +80,8 @@ public class FirebaseUserRepository implements UserRepository {
             }
         });
     }
+
+    public void getConversationsByUser(String username, ValueEventListener listener) {
+        usersRef.child(username).child("conversations").addListenerForSingleValueEvent(listener);
+    }
 }

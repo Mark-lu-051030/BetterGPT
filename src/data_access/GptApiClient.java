@@ -3,7 +3,10 @@ package data_access;
 import com.theokanning.openai.service.OpenAiService;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatCompletionResult;
+import com.theokanning.openai.completion.chat.ChatMessage;
 import use_case.ChatClient;
+
+import java.util.List;
 
 /**
  * GptApiClient is responsible for interacting with the OpenAI API to create and send chat completion requests.
@@ -35,12 +38,12 @@ public class GptApiClient implements ChatClient {
     /**
      * Creates and sends a chat completion request based on the specified prompt, returning the response.
      *
-     * @param prompt the user's input prompt for the chat completion
+     * @param messages the list of chat messages
      * @return the response message content from the chat completion request
      */
     @Override
-    public String getChatCompletion(String prompt) {
-        ChatCompletionRequest request = dataHandler.buildChatCompletionRequest("gpt-3.5-turbo", prompt);
+    public String getChatCompletion(List<ChatMessage> messages) {
+        ChatCompletionRequest request = dataHandler.buildChatCompletionRequest("gpt-3.5-turbo", messages);
         return sendRequestAndGetResponse(request);
     }
 }

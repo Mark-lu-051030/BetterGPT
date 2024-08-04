@@ -1,17 +1,16 @@
 package data_access;
 
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.*;
 import entity.Conversation;
 import entity.Message;
-
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class FirebaseConversationsRepository {
+public class FirebaseConversationsRepository implements ConversationRepository {
     private final DatabaseReference conversationsRef;
 
     public FirebaseConversationsRepository() {
@@ -38,11 +37,12 @@ public class FirebaseConversationsRepository {
         return serializedMessage;
     }
 
-    public void addConversationWithListener(Conversation conversation) {
+    @Override
+    public void addConversation(Conversation conversation) {
         String id = conversationsRef.push().getKey();
         conversation.setId(id);
-        Map<String, Object> serializedConversation = serializeConversation(conversation);
-        conversationsRef.child(id).setValue(serializedConversation, new DatabaseReference.CompletionListener() {
+        conversationsRef.child(id).setValue(serializeConversation(conversation),
+                new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
@@ -54,15 +54,12 @@ public class FirebaseConversationsRepository {
         });
     }
 
+    @Override
     public void addMessage(String conversationId, Message message) {
         String id = conversationsRef.child(conversationId).child("messages").push().getKey();
         message.setId(id);
-        Map<String, Object> serializedMessage = serializeMessage(message);
-        Map<String, Object> updateMap = new HashMap<>();
-        updateMap.put("messages/" + id, serializedMessage);
-        updateMap.put("modificationTime", System.currentTimeMillis());
-
-        conversationsRef.child(conversationId).updateChildren(updateMap, new DatabaseReference.CompletionListener() {
+        conversationsRef.child(conversationId).child("messages").child(id).setValue(serializeMessage(message),
+                new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
@@ -72,13 +69,55 @@ public class FirebaseConversationsRepository {
                 }
             }
         });
+        updateConversationTimestamp(conversationId);
     }
 
-    public void getConversationById(String conversationId, ValueEventListener listener) {
-        conversationsRef.child(conversationId).addListenerForSingleValueEvent(listener);
+    private void updateConversationTimestamp(String conversationId) {
+        conversationsRef.child(conversationId).child("modificationTime").setValue(System.currentTimeMillis(),
+                new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    System.err.println("Failed to add timestamp: " + databaseError.getMessage());
+                } else {
+                    System.out.println("Timestamp added successfully");
+                }
+            }
+        });
     }
 
-    public void getConversationsByUserId(String userId, ValueEventListener listener) {
-        conversationsRef.orderByChild("username").equalTo(userId).addListenerForSingleValueEvent(listener);
+    @Override
+    public void getConversationById(String conversationId, ConversationCallback callback) {
+        conversationsRef.child(conversationId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Conversation conversation = snapshot.getValue(Conversation.class);
+                callback.onCallback(conversation);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                callback.onCallback(null);
+            }
+        });
+    }
+
+    @Override
+    public void getConversationsByUserId(String userId, ConversationsCallback callback) {
+        conversationsRef.orderByChild("username").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<Conversation> conversations = new ArrayList<>();
+                for (DataSnapshot conversationSnapshot : snapshot.getChildren()) {
+                    conversations.add(conversationSnapshot.getValue(Conversation.class));
+                }
+                callback.onCallback(conversations);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                callback.onCallback(new ArrayList<>());
+            }
+        });
     }
 }

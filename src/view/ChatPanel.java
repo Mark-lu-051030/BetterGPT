@@ -1,5 +1,6 @@
 package view;
 
+import entity.Conversation;
 import interface_adapter.ChatController;
 import view.Util.DefaultButton;
 import view.Util.DefaultScrollPane;
@@ -24,6 +25,8 @@ public class ChatPanel extends JPanel {
     private GridBagConstraints constraints;
     private Font textFont = new Font("Arial", Font.PLAIN, 20);
     private Color backgroundColor = Color.darkGray;
+    private ChatController chatController;
+    private Conversation conversation;
 
     /**
      * Constructs a {@code ChatPanel} and initializes its components.
@@ -31,6 +34,7 @@ public class ChatPanel extends JPanel {
      * @param chatController the {@code ChatController} used to manage chat functionalities
      */
     public ChatPanel(ChatController chatController) {
+        this.chatController = chatController;
         setLayout(new BorderLayout()); // Use BorderLayout for main panel
 
         chatArea = new ChatArea(this, textFont, backgroundColor);
@@ -56,15 +60,12 @@ public class ChatPanel extends JPanel {
         add(inputPanel, BorderLayout.SOUTH);
 
         ActionListener actionListener = e -> {
-            System.out.println(userInput.getText());
             String input = userInput.getText();
             if (!input.isEmpty()) {
-                SwingUtilities.invokeLater(() -> {
-                    chatArea.addMessage(true, "You: " + input);
-                    String response = chatController.getResponse(input);
-                    chatArea.addMessage(false, "GPT: " + response);
-                    userInput.setText("");
-                });
+                chatArea.addMessage(true, "You: " + input);
+                String response = chatController.getResponse(input);
+                chatArea.addMessage(false, "GPT: " + response);
+                userInput.setText("");
             }
         };
 
