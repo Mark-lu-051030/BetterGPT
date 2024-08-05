@@ -1,10 +1,9 @@
 package data_access;
 
 public interface EmailTokenRepository {
-    void mapEmailToToken(String email, String token);
-    void retrieveEmailAndToken(String email, TokenCallback callback);
-
-    public interface TokenCallback {
-        void onCallback(String token);
-    }
+    String getEmailByToken(String token);
+    String getTokenByEmail(String email);
+    boolean updateUserToken(String email, String token);
+    boolean deleteUser(String email);
 }
+
