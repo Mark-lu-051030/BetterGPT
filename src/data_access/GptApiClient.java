@@ -43,7 +43,7 @@ public class GptApiClient implements ChatClient {
      */
     @Override
     public String getChatCompletion(List<ChatMessage> messages) {
-        ChatCompletionRequest request = dataHandler.buildChatCompletionRequest("gpt-3.5-turbo", messages);
+        ChatCompletionRequest request = dataHandler.buildChatCompletionRequest("gpt-4o", messages);
         return sendRequestAndGetResponse(request);
     }
 }
