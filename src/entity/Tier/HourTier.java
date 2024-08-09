@@ -16,7 +16,7 @@ public class HourTier extends Tier
     {
         this.unitfee = inputunitfee;
         this.remain_time_per_second = inputremaintime;
-        this.isexpired = (this.remain_time_per_second <= 0);
+        this.isexpired = checkExpired();
         this.isopen = false;
         this.timer = new Timer();
     }
@@ -26,10 +26,10 @@ public class HourTier extends Tier
     {
         // timer counter, if user start to use, remain time -1 per second;
         this.remain_time_per_second--;
-        if(this.remain_time_per_second <= 0) setExpired(true);
+        setExpired(checkExpired());
     }
 
-    private void Open()
+    public void open()
     {
         setOpen(true);
         timer.schedule(new TimerTask()
@@ -47,17 +47,21 @@ public class HourTier extends Tier
             }
         }, 0, 1000);
     }
-    private void close()
+    public void close()
     {
         this.timer.cancel();
         setOpen(false);
     }
 
-    private void renewal(long inputtime)
+    public void renewal(long inputtime)
     {
         // CAREFUL!! this input is hour!!! we need to exchange it to second!!!
         this.remain_time_per_second += inputtime * 3600;
     }
 
+    public boolean checkExpired()
+    {
+        return (this.remain_time_per_second <= 0);
+    }
 
 }

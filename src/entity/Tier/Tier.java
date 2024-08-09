@@ -10,6 +10,9 @@ public abstract class Tier
     protected boolean isexpired; // Check if this tier is expired; True means expired, false means not.
     protected boolean isopen; //Check if the user starts to use the time. True means open.
 
+    public abstract boolean checkExpired();
+    public abstract void renewal(long inputvalue);
+
     public double getUnitfee()
     {
         return this.unitfee;
