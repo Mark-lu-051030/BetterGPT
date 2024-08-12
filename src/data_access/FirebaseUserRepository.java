@@ -69,7 +69,7 @@ public class FirebaseUserRepository implements UserRepository {
 
     @Override
     public void updatePassword(String username, String newPassword) {
-        usersRef.child(username).child("password").setValue(newPassword, new DatabaseReference.CompletionListener() {
+        usersRef.child(username).child("userPassword").setValue(newPassword, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                 if (databaseError != null) {
