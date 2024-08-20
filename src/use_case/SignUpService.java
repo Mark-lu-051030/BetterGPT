@@ -19,21 +19,41 @@ public class SignUpService {
      *
      * @param input_username The username of the new user.
      * @param input_password The password of the new user.
-     * @param email The email of the new user
-     * @return true if the sign-up is successful, false if the username is already taken.
+     * @param email The email of the new user.
+     * @param callback A callback to handle success or failure of sign-up.
      */
-    public boolean signUp(String input_username, String input_password, String email) {
+    public void signUp(String input_username, String input_password, String email, SignUpCallback callback) {
         userRepository.findByUsername(input_username, new UserRepository.UserCallback() {
             @Override
-            public void onCallback(User user) {
-                if (user != null) {
-                    System.out.println("This username has been used! Please choose another username!");
+            public void onCallback(User userByUsername) {
+                if (userByUsername != null) {
+                    callback.onSignUpResult(false, "This username is already taken! Please choose another username.");
                 } else {
-                    userRepository.addUser(new User(input_username, input_password, email));
-                    System.out.println("Successfully signed up!");
+                    checkEmail();
                 }
             }
+
+            private void checkEmail() {
+                userRepository.findByEmail(email, new UserRepository.UserCallback() {
+                    @Override
+                    public void onCallback(User user) {
+                        if (user != null) {
+                            callback.onSignUpResult(false, "Email already exists!");
+                        } else {
+                            createUser();
+                        }
+                    }
+                });
+            }
+
+            private void createUser() {
+                userRepository.addUser(new User(input_username, input_password, email));
+                callback.onSignUpResult(true, "Successfully signed up!");
+            }
         });
-        return false;
+    }
+
+    public interface SignUpCallback {
+        void onSignUpResult(boolean success, String message);
     }
 }

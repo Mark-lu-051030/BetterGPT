@@ -3,7 +3,11 @@ package app;
 import data_access.*;
 import entity.Conversation;
 import interface_adapter.ChatController;
+import interface_adapter.LoginController;
 import use_case.ChatService;
+import use_case.SignInService;
+import use_case.SignUpService;
+import view.LoginView;
 import view.ViewManager;
 
 import javax.swing.*;
@@ -12,21 +16,12 @@ import java.time.LocalDateTime;
 public class Main {
     public static void main(String[] args) {
         FirebaseInitializer.initialize();
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            FirebaseUserRepository userRepository = new FirebaseUserRepository();
-            FirebaseConversationsRepository conversationsRepository = new FirebaseConversationsRepository();
+        FirebaseUserRepository userRepository = new FirebaseUserRepository();
 
-            Conversation newConversation = new Conversation();
-            newConversation.setUsername("testuser");
-            newConversation.setCreationTime(LocalDateTime.now());
-            newConversation.setModificationTime(LocalDateTime.now());
+        LoginView loginView = new LoginView();
+        new LoginController(loginView, userRepository);
 
-            conversationsRepository.addConversation(newConversation);
-
-            userRepository.addConversationIdToUser("testuser", newConversation.getId());
-
-            initializeChat(newConversation, userRepository, conversationsRepository);
-        });
+        loginView.setVisible(true);
     }
 
     private static void initializeChat(Conversation conversation, FirebaseUserRepository userRepository, FirebaseConversationsRepository conversationsRepository) {

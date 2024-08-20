@@ -3,15 +3,11 @@
          xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
     http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <!-- 模型版本 -->
     <modelVersion>4.0.0</modelVersion>
-    <!-- 公司或者组织的唯一标志，并且配置时生成的路径也是由此生成， 如com.companyname.project-group，maven会将该项目打成的jar包放本地路径：/com/companyname/project-group -->
     <groupId>com.RandomGroup.BetterGPT</groupId>
 
-    <!-- 项目的唯一ID，一个groupId下面可能多个项目，就是靠artifactId来区分的 -->
     <artifactId>maventest</artifactId>
 
-    <!-- 版本号 -->
     <version>1.0</version>
 
     <dependencies>
@@ -103,6 +99,13 @@
             <artifactId>firebase-admin</artifactId>
             <version>8.1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
 
 
     </dependencies>

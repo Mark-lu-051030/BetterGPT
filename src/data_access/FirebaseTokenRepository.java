@@ -105,4 +105,24 @@ public class FirebaseTokenRepository implements EmailTokenRepository {
             return false;
         }
     }
+
+    public CompletableFuture<String> FindUserByEmail(String email) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        tokensRef.child(email.replace(".", ",")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    future.complete(snapshot.getValue(String.class));
+                } else {
+                    future.complete(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                future.completeExceptionally(error.toException());
+            }
+        });
+        return future;
+    }
 }
