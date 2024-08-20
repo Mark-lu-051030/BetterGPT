@@ -5,13 +5,8 @@ import entity.Conversation;
 import interface_adapter.ChatController;
 import interface_adapter.LoginController;
 import use_case.ChatService;
-import use_case.SignInService;
-import use_case.SignUpService;
 import view.LoginView;
-import view.ViewManager;
-
-import javax.swing.*;
-import java.time.LocalDateTime;
+import view.prechat.ViewManager;
 
 public class Main {
     public static void main(String[] args) {

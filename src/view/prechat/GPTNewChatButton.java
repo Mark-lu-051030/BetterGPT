@@ -1,4 +1,4 @@
-package view;
+package view.prechat;
 
 import view.Util.GraphicUtils;
 

@@ -1,4 +1,4 @@
-package view;
+package view.prechat;
 
 import entity.Conversation;
 import interface_adapter.ChatController;

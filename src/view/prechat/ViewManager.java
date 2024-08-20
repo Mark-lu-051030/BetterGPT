@@ -1,4 +1,4 @@
-package view;
+package view.prechat;
 
 import interface_adapter.ChatController;
 import view.Util.GraphicUtils;

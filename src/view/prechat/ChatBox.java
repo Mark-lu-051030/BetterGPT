@@ -1,4 +1,4 @@
-package view;
+package view.prechat;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
