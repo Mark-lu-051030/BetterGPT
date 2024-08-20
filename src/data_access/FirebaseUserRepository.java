@@ -36,7 +36,7 @@ public class FirebaseUserRepository implements UserRepository {
     }
 
     public void findByEmail(String email, UserCallback callback) {
-        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+        usersRef.orderByChild("userEmail").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 User user = null;

@@ -37,7 +37,6 @@ public class LoginController {
                         view.displayMessage("Login successful!");
                         // TODO: Navigate to Chat window
                     } else {
-                        // Show error message
                         view.displayMessage(message);
                     }
                 }
@@ -58,7 +57,6 @@ public class LoginController {
     private class ForgotPasswordListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO: Implement navigation to Forgot Password window
             view.displayMessage("Forgot Password functionality is not implemented yet.");
         }
     }
