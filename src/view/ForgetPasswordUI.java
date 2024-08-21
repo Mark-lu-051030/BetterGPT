@@ -34,7 +34,7 @@ public class ForgetPasswordUI {
     private static UpdateFirebaseToken updateFirebaseToken1;
     private static String inputNewPass;
 
-    public static void main(String[] args) {
+    public static void resetpswd() {
         // Create a new JFrame container
         JFrame frame = new JFrame("Forget Password UI");
 
