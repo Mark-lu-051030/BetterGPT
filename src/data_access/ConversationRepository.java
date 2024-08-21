@@ -9,7 +9,7 @@ public interface ConversationRepository {
     void addConversation(Conversation conversation);
     void addMessage(String conversationId, Message message);
     void getConversationById(String conversationId, ConversationCallback callback);
-    void getConversationsByUserId(String userId, ConversationsCallback callback);
+    List<Conversation> getConversationsByUserId(String userId);
 
     interface ConversationCallback {
         void onCallback(Conversation conversation);
@@ -18,4 +18,5 @@ public interface ConversationRepository {
     interface ConversationsCallback {
         void onCallback(List<Conversation> conversations);
     }
+
 }

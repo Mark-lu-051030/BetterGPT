@@ -5,13 +5,26 @@ import data_access.EmailTokenRepository;
 
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * The FirebaseTokenRepository class provides methods for managing user tokens in Firebase.
+ * It implements the EmailTokenRepository interface, providing methods to get, update, and delete tokens associated with user emails.
+ */
 public class FirebaseTokenRepository implements EmailTokenRepository {
     private final DatabaseReference tokensRef;
 
+    /**
+     * Constructs a FirebaseTokenRepository and initializes the Firebase database reference for tokens.
+     */
     public FirebaseTokenRepository() {
         tokensRef = FirebaseDatabase.getInstance().getReference().child("tokens");
     }
 
+    /**
+     * Retrieves the email associated with a given token from Firebase.
+     *
+     * @param token the token to search for
+     * @return the email associated with the token, or null if not found
+     */
     @Override
     public String getEmailByToken(String token) {
         CompletableFuture<String> future = new CompletableFuture<>();
@@ -38,6 +51,12 @@ public class FirebaseTokenRepository implements EmailTokenRepository {
         }
     }
 
+    /**
+     * Retrieves the token associated with a given email from Firebase.
+     *
+     * @param email the email to search for
+     * @return the token associated with the email, or null if not found
+     */
     @Override
     public String getTokenByEmail(String email) {
         CompletableFuture<String> future = new CompletableFuture<>();
@@ -64,6 +83,13 @@ public class FirebaseTokenRepository implements EmailTokenRepository {
         }
     }
 
+    /**
+     * Updates the token associated with a given email in Firebase.
+     *
+     * @param email the email for which the token should be updated
+     * @param token the new token to associate with the email
+     * @return true if the update was successful, false otherwise
+     */
     @Override
     public boolean updateUserToken(String email, String token) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
@@ -85,6 +111,12 @@ public class FirebaseTokenRepository implements EmailTokenRepository {
         }
     }
 
+    /**
+     * Deletes the token associated with a given email from Firebase.
+     *
+     * @param email the email for which the token should be deleted
+     * @return true if the deletion was successful, false otherwise
+     */
     @Override
     public boolean deleteUser(String email) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
@@ -106,6 +138,12 @@ public class FirebaseTokenRepository implements EmailTokenRepository {
         }
     }
 
+    /**
+     * Finds and retrieves the token associated with a given email from Firebase asynchronously.
+     *
+     * @param email the email to search for
+     * @return a CompletableFuture containing the token associated with the email, or null if not found
+     */
     public CompletableFuture<String> FindUserByEmail(String email) {
         CompletableFuture<String> future = new CompletableFuture<>();
         tokensRef.child(email.replace(".", ",")).addValueEventListener(new ValueEventListener() {

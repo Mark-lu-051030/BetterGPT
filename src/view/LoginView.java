@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * The LoginView class represents the user interface for the login screen of the application.
+ * It provides fields for the user to enter their username and password, as well as buttons for
+ * logging in, signing up, and recovering a forgotten password.
+ */
 public class LoginView extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -11,6 +16,9 @@ public class LoginView extends JFrame {
     private JButton signUpButton;
     private JLabel forgotPasswordLabel;
 
+    /**
+     * Constructs a LoginView and initializes the user interface components.
+     */
     public LoginView() {
         setTitle("BetterGPT Login");
         setSize(1429, 928);
@@ -46,6 +54,11 @@ public class LoginView extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Creates and configures the left panel containing a code block illustration.
+     *
+     * @return the configured JPanel representing the left panel
+     */
     private JPanel createLeftPanel() {
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(Color.WHITE);
@@ -59,6 +72,11 @@ public class LoginView extends JFrame {
         return leftPanel;
     }
 
+    /**
+     * Creates and configures the right panel containing the login form.
+     *
+     * @return the configured JPanel representing the right panel
+     */
     private JPanel createRightPanel() {
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.WHITE);
@@ -125,22 +143,47 @@ public class LoginView extends JFrame {
         return rightPanel;
     }
 
+    /**
+     * Gets the username entered by the user.
+     *
+     * @return the entered username as a String
+     */
     public String getUsername() {
         return usernameField.getText();
     }
 
+    /**
+     * Gets the password entered by the user.
+     *
+     * @return the entered password as a String
+     */
     public String getPassword() {
         return new String(passwordField.getPassword());
     }
 
+    /**
+     * Adds an ActionListener to the login button.
+     *
+     * @param listener the ActionListener to be added
+     */
     public void addLoginListener(ActionListener listener) {
         loginButton.addActionListener(listener);
     }
 
+    /**
+     * Adds an ActionListener to the sign-up button.
+     *
+     * @param listener the ActionListener to be added
+     */
     public void addSignUpListener(ActionListener listener) {
         signUpButton.addActionListener(listener);
     }
 
+    /**
+     * Adds an ActionListener to the forgot password label.
+     *
+     * @param listener the ActionListener to be added
+     */
     public void addForgotPasswordListener(ActionListener listener) {
         forgotPasswordLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -149,6 +192,11 @@ public class LoginView extends JFrame {
         });
     }
 
+    /**
+     * Displays a message to the user using a dialog box.
+     *
+     * @param message the message to be displayed
+     */
     public void displayMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
