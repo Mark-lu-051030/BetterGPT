@@ -102,6 +102,7 @@ public class ChatWindow extends JFrame {
 
     public void setConversationListData(String[] conversations) {
         conversationList.setListData(conversations);
+
     }
 
     public void addConversationSelectionListener(ListSelectionListener listener) {

@@ -7,6 +7,7 @@ import data_access.GptApiClient;
 import data_access.UserRepository;
 import entity.Conversation;
 import use_case.ChatService;
+import use_case.LoadConversations;
 import view.ChatWindow;
 
 public class ApplicationInitializer {
@@ -21,6 +22,7 @@ public class ApplicationInitializer {
 
         ChatService chatService = new ChatService(gptApiClient, conversationRepository, conversation);
         ChatController chatController = new ChatController(chatService);
+
 
         // Link the chat window with the chat controller
         chatWindow.addInputFieldListener(e -> {
