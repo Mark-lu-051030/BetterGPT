@@ -29,6 +29,10 @@ public class SendEmailController {
         ActuallySendEmail.sendEmail(this.to, this.subject, this.body);
 
         // tell the firebase a new user has been created
+        UpdateFirebaseToken updateFirebaseToken = new UpdateFirebaseToken(to, token);
+
+        // Call the performUpdate() method to test it
+        updateFirebaseToken.performUpdate();
 
     }
 
