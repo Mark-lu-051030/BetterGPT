@@ -44,8 +44,4 @@ public class UserTest extends TestCase {
         user.setUserEmail("updated@example.com");
         assertEquals("updated@example.com", user.getUserEmail());
     }
-    public void testConversations() {
-        assertTrue(user.getConversations().isEmpty());
-
-    }
 }

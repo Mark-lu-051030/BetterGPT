@@ -1,57 +1,90 @@
 package use_case;
 
-import data_access.SQLiteUserRepository;
-import entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-import java.sql.SQLException;
+import data_access.UserRepository;
+import entity.User;
+import use_case.SignInService;
+import use_case.SignInService.SignInCallback;
 
-import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+public class SignInServiceTest {
 
-class SignInServiceTest {
-
-    @Mock
-    private SQLiteUserRepository mockUserRepository;
+    private UserRepository userRepository;
+    private SignInService.SignInCallback signInCallback;
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void setUp() {
+        userRepository = mock(UserRepository.class);
+        signInCallback = mock(SignInCallback.class);
     }
 
     @Test
-    void testSignInSuccessful() throws SQLException {
+    public void testSignIn_UserDoesNotExist() {
+        // Arrange
+        String username = "nonExistentUser";
+        String password = "password123";
+
+        // The repository returns null, indicating the user does not exist
+        doAnswer(invocation -> {
+            UserRepository.UserCallback callback = invocation.getArgument(1);
+            callback.onCallback(null);
+            return null;
+        }).when(userRepository).findByUsername(eq(username), any());
+
+        // Act
+        SignInService.signIn(username, password, userRepository, signInCallback);
+
+        // Assert
+        verify(signInCallback).onSignInResult(false, "This username does not exist! Please sign up first!");
+    }
+
+    @Test
+    public void testSignIn_WrongPassword() {
+        // Arrange
+        String username = "existingUser";
+        String correctPassword = "correctPassword";
+        String wrongPassword = "wrongPassword";
+
+        User user = new User(username, correctPassword, "email@example.com");
+
+        // The repository returns a user, but with a different password
+        doAnswer(invocation -> {
+            UserRepository.UserCallback callback = invocation.getArgument(1);
+            callback.onCallback(user);
+            return null;
+        }).when(userRepository).findByUsername(eq(username), any());
+
+        // Act
+        SignInService.signIn(username, wrongPassword, userRepository, signInCallback);
+
+        // Assert
+        verify(signInCallback).onSignInResult(false, "Wrong password! Please try again!");
+    }
+
+    @Test
+    public void testSignIn_Successful() {
+        // Arrange
         String username = "existingUser";
         String password = "correctPassword";
-        User mockUser = new User(username, password, "email@example.com");
 
-        when(mockUserRepository.findByUsername(username)).thenReturn(mockUser);
-        boolean result = SignInService.signIn(username, password, mockUserRepository);
-        assertTrue(result);
-    }
+        User user = new User(username, password, "email@example.com");
 
-    @Test
-    void testSignInUserNotFound() throws SQLException {
-        String username = "name";
-        String password = "password";
+        // The repository returns a user with the correct password
+        doAnswer(invocation -> {
+            UserRepository.UserCallback callback = invocation.getArgument(1);
+            callback.onCallback(user);
+            return null;
+        }).when(userRepository).findByUsername(eq(username), any());
 
-        when(mockUserRepository.findByUsername(username)).thenReturn(null);
-        boolean result = SignInService.signIn(username, password, mockUserRepository);
-        assertFalse(result);
-    }
+        // Act
+        SignInService.signIn(username, password, userRepository, signInCallback);
 
-    @Test
-    void testSignInWrongPassword() throws SQLException {
-        String username = "existingUser";
-        String password = "wrongPassword";
-        User mockUser = new User(username, "correctPassword", "existing email");
-
-        when(mockUserRepository.findByUsername(username)).thenReturn(mockUser);
-        boolean result = SignInService.signIn(username, password, mockUserRepository);
-        assertFalse(result);
+        // Assert
+        verify(signInCallback).onSignInResult(true, "Successfully signed in!");
     }
 }
