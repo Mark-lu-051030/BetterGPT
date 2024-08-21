@@ -11,11 +11,23 @@ public class Conversation implements Serializable {
     private List<Message> messages;
     private LocalDateTime creationTime;
     private LocalDateTime modificationTime;
+    private String name;
 
     public Conversation() {
         this.messages = new ArrayList<>();
         this.creationTime = LocalDateTime.now();
         this.modificationTime = LocalDateTime.now();
+        this.name = "New Chat";
+
+    }
+
+    public Conversation(String username) {
+        this.username = username;
+        this.messages = new ArrayList<>();
+        this.creationTime = LocalDateTime.now();
+        this.modificationTime = LocalDateTime.now();
+        this.name = "New Chat";
+
     }
 
     public Conversation(String id, String username, LocalDateTime creationTime, LocalDateTime modificationTime) {
@@ -24,6 +36,7 @@ public class Conversation implements Serializable {
         this.creationTime = creationTime;
         this.modificationTime = modificationTime;
         this.messages = new ArrayList<>();
+        this.name = "New Chat";
     }
 
     // Getters and setters
@@ -41,6 +54,14 @@ public class Conversation implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public List<Message> getMessages() {

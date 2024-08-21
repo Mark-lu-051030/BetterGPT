@@ -3,6 +3,7 @@ package use_case;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import data_access.GptApiClient;
 import data_access.ConversationRepository;
+import data_access.UserRepository;
 import entity.Conversation;
 import entity.Message;
 
@@ -20,6 +21,7 @@ public class ChatService {
         this.conversationRepository = conversationRepository;
         this.conversation = conversation;
     }
+
 
     public String handleUserInput(String userInput) {
         // Add user's input message to the conversation

@@ -24,6 +24,7 @@ public class FirebaseConversationsRepository implements ConversationRepository {
         serializedConversation.put("creationTime", conversation.getCreationTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         serializedConversation.put("modificationTime", conversation.getModificationTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         serializedConversation.put("messages", conversation.getMessages());
+        serializedConversation.put("name", conversation.getName());
         return serializedConversation;
     }
 

@@ -55,6 +55,7 @@ public class FirebaseUserRepository implements UserRepository {
         });
     }
 
+    @Override
     public void addConversationIdToUser(String username, String conversationId) {
         Map<String, Object> conversationUpdate = new HashMap<>();
         conversationUpdate.put(conversationId, true);

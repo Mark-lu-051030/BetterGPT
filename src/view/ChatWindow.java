@@ -1,126 +1,149 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChatWindow extends JFrame {
-
-    // Panels for the UI layout
-    private JPanel conversationHistoryPanel;
-    private JPanel chatAreaPanel;
+    private JList<String> conversationList;
+    private JTextArea chatDisplayArea;
+    private JTextField inputField;
+    private JButton createNewConversationButton;
     private JButton profileButton;
     private JButton settingsButton;
-    private JButton newConversationButton;
-    private JButton renameConversationButton;
-    private JButton deleteConversationButton;
-    private JList<String> conversationList;
-    private DefaultListModel<String> listModel;
+    private JButton sendButton;
 
     public ChatWindow() {
-        // Set up the main frame
         setTitle("BetterGPT Chat");
-        setSize(1200, 800);
+        setSize(1429, 928);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Create and set up the conversation history panel
-        conversationHistoryPanel = new JPanel();
-        conversationHistoryPanel.setLayout(new BorderLayout());
-        conversationHistoryPanel.setBackground(new Color(240, 240, 240));
-        conversationHistoryPanel.setPreferredSize(new Dimension(300, getHeight()));
+        // Left Panel - Conversation History
+        JPanel leftPanel = createLeftPanel();
 
-        // Create and set up the chat area panel
-        chatAreaPanel = new JPanel();
-        chatAreaPanel.setLayout(new BorderLayout());
-        chatAreaPanel.setBackground(Color.WHITE);
+        // Right Panel - Chat Display Area with Input
+        JPanel rightPanel = createRightPanel();
 
-        // Create and set up the profile and settings buttons
-        profileButton = new JButton("Profile");
-        settingsButton = new JButton("Settings");
+        // Add Panels to Frame
+        add(leftPanel, BorderLayout.WEST);
+        add(rightPanel, BorderLayout.CENTER);
 
-        // Add the profile and settings buttons to the conversation history panel
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(1, 2));
-        bottomPanel.add(profileButton);
-        bottomPanel.add(settingsButton);
-
-        // Create and set up the conversation list
-        listModel = new DefaultListModel<>();
-        conversationList = new JList<>(listModel);
-        conversationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane conversationScrollPane = new JScrollPane(conversationList);
-
-        // Create and set up the buttons for managing conversations
-        newConversationButton = new JButton("New Conversation");
-        renameConversationButton = new JButton("Rename");
-        deleteConversationButton = new JButton("Delete");
-
-        // Add the buttons to a panel
-        JPanel managePanel = new JPanel();
-        managePanel.setLayout(new GridLayout(1, 3));
-        managePanel.add(newConversationButton);
-        managePanel.add(renameConversationButton);
-        managePanel.add(deleteConversationButton);
-
-        // Add components to the conversation history panel
-        conversationHistoryPanel.add(managePanel, BorderLayout.NORTH);
-        conversationHistoryPanel.add(conversationScrollPane, BorderLayout.CENTER);
-        conversationHistoryPanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        // Add the panels to the frame
-        add(conversationHistoryPanel, BorderLayout.WEST);
-        add(chatAreaPanel, BorderLayout.CENTER);
-
-        // Make the frame visible
+        // Make the Frame Visible
         setVisible(true);
     }
 
-    // Method to add conversation to the list
-    public void addConversation(String conversationName) {
-        listModel.addElement(conversationName);
+    private JPanel createLeftPanel() {
+        JPanel leftPanel = new JPanel();
+        leftPanel.setBackground(new Color(0, 80, 255)); // Blue background
+        leftPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Create New Conversation Button
+        createNewConversationButton = new JButton("New Conversation");
+        createNewConversationButton.setFocusPainted(false);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 0.1;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        leftPanel.add(createNewConversationButton, gbc);
+
+        // Scrollable Conversation List
+        conversationList = new JList<>();
+        conversationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(conversationList);
+        gbc.gridy = 1;
+        gbc.weighty = 0.8;
+        gbc.fill = GridBagConstraints.BOTH;
+        leftPanel.add(scrollPane, gbc);
+
+        // Profile and Settings Buttons
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new GridLayout(2, 1, 10, 10));
+        bottomPanel.setBackground(new Color(33, 99, 243));
+        profileButton = new JButton("Profile");
+        settingsButton = new JButton("Settings");
+        bottomPanel.add(profileButton);
+        bottomPanel.add(settingsButton);
+        gbc.gridy = 2;
+        gbc.weighty = 0.1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        leftPanel.add(bottomPanel, gbc);
+
+        return leftPanel;
     }
 
-    // Method to remove the selected conversation
-    public void removeSelectedConversation() {
-        int selectedIndex = conversationList.getSelectedIndex();
-        if (selectedIndex != -1) {
-            listModel.remove(selectedIndex);
-        }
+    private JPanel createRightPanel() {
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BorderLayout());
+
+        // Chat Display Area
+        chatDisplayArea = new JTextArea();
+        chatDisplayArea.setEditable(false);
+        JScrollPane chatScrollPane = new JScrollPane(chatDisplayArea);
+        rightPanel.add(chatScrollPane, BorderLayout.CENTER);
+
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BorderLayout());
+
+        inputField = new JTextField();
+        inputPanel.add(inputField, BorderLayout.CENTER);
+
+        sendButton = new JButton("↑");
+        sendButton.setPreferredSize(new Dimension(50, 50)); // Adjust the size as needed
+        inputPanel.add(sendButton, BorderLayout.EAST);
+
+        rightPanel.add(inputPanel, BorderLayout.SOUTH);
+
+        return rightPanel;
     }
 
-    // Method to rename the selected conversation
-    public void renameSelectedConversation(String newName) {
-        int selectedIndex = conversationList.getSelectedIndex();
-        if (selectedIndex != -1) {
-            listModel.set(selectedIndex, newName);
-        }
+    public void setConversationListData(String[] conversations) {
+        conversationList.setListData(conversations);
     }
 
-    // Listener methods for the buttons
-    public void addNewConversationListener(ActionListener listener) {
-        newConversationButton.addActionListener(listener);
+    public void addConversationSelectionListener(ListSelectionListener listener) {
+        conversationList.addListSelectionListener(listener);
     }
 
-    public void addRenameConversationListener(ActionListener listener) {
-        renameConversationButton.addActionListener(listener);
+    public void addInputFieldListener(ActionListener listener) {
+        inputField.addActionListener(listener);
+        sendButton.addActionListener(listener);
     }
 
-    public void addDeleteConversationListener(ActionListener listener) {
-        deleteConversationButton.addActionListener(listener);
+    public void addCreateNewConversationListener(ActionListener listener) {
+        createNewConversationButton.addActionListener(listener);
+    }
+
+    public void addProfileButtonListener(ActionListener listener) {
+        profileButton.addActionListener(listener);
+    }
+
+    public void addSettingsButtonListener(ActionListener listener) {
+        settingsButton.addActionListener(listener);
+    }
+
+    public void appendChatMessage(String message) {
+        chatDisplayArea.setFont(new Font("Arial", Font.PLAIN, 24));
+        chatDisplayArea.append(message + "\n\n");
+        chatDisplayArea.setCaretPosition(chatDisplayArea.getDocument().getLength());
+    }
+
+    public void clearInputField() {
+        inputField.setText("");
+    }
+
+    public void clearChatDisplay() {
+        chatDisplayArea.setText("");
     }
 
     public String getSelectedConversation() {
         return conversationList.getSelectedValue();
     }
 
-    public int getSelectedConversationIndex() {
-        return conversationList.getSelectedIndex();
-    }
-
-    public static void main(String[] args) {
-        new ChatWindow();
+    public String getInputText() {
+        return inputField.getText();
     }
 }

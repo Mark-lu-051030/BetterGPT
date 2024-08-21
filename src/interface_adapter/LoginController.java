@@ -1,13 +1,21 @@
 package interface_adapter;
 
+import app.ApiKeyProvider;
+import data_access.ConversationRepository;
+import data_access.FirebaseConversationsRepository;
+import data_access.GptApiClient;
+import entity.Conversation;
+import use_case.ChatService;
 import use_case.SignInService;
 import data_access.UserRepository;
 import use_case.SignUpService;
+import view.ChatWindow;
 import view.LoginView;
 import view.SignUpView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 
 public class LoginController {
     private final LoginView view;
@@ -33,9 +41,9 @@ public class LoginController {
                 @Override
                 public void onSignInResult(boolean success, String message) {
                     if (success) {
-                        // Proceed to chat window
-                        view.displayMessage("Login successful!");
-                        // TODO: Navigate to Chat window
+                        view.dispose();
+                        ChatWindow chatWindow = new ChatWindow();
+                        ApplicationInitializer.start(username, chatWindow, userRepository);
                     } else {
                         view.displayMessage(message);
                     }
@@ -60,4 +68,5 @@ public class LoginController {
             view.displayMessage("Forgot Password functionality is not implemented yet.");
         }
     }
+
 }

@@ -11,6 +11,7 @@ import java.util.List;
 public class ChatController {
     private final ChatService chatService;
 
+
     /**
      * Constructs a new ChatController with the specified ChatService.
      * @param chatService the ChatService used to generate responses
