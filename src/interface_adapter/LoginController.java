@@ -107,7 +107,8 @@ public class LoginController {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.displayMessage("Forgot Password functionality is not implemented yet.");
+            view.setVisible(false);
+            resetpswd();
         }
     }
 
