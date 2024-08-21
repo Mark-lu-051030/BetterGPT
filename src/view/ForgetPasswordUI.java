@@ -46,7 +46,7 @@ public class ForgetPasswordUI {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Give the frame an initial size
-        frame.setSize(800, 800);
+        frame.setSize(1429, 928);
 
         // Terminate the program when the user closes the application
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
